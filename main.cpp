@@ -34,13 +34,24 @@ int main() {
             default:
                 std::cerr << "Unknown error setting GPIO mode." << std::endl;
         }
-    }   
+    }
+
+
+    int PWM_FREQUENCY = 1000; 
+    int PERIOD = 1 / PWM_FREQUENCY; // Calculate the period in seconds
+
 
     while (true) {
-        gpioWrite(LED_PIN, 1); // Turn on the LED
-        std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Wait for 500 milliseconds
-        gpioWrite(LED_PIN, 0); // Turn off the LED
-        std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Wait for 500 milliseconds
+
+        for (int duty = 0; duty <= 100; duty += 5) {
+            int dutyCycle = duty / 100;
+
+            gpioWrite(LED_PIN, 1); // Set the LED state based on the duty cycle
+            std::this_thread::sleep_for(std::chrono::milliseconds(PERIOD * 1000) * dutyCycle); // Wait for the period duration
+
+            gpioWrite(LED_PIN, 0); // Turn off the LED
+            std::this_thread::sleep_for(std::chrono::milliseconds(PERIOD * 1000) * (1 - dutyCycle)); // Wait for the remaining period duration
+        }
     }
 
     gpioTerminate(); // Clean up and terminate pigpio
