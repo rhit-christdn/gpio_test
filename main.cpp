@@ -4,7 +4,7 @@
 #include <thread>
 
 int main() {
-    static const int LED_PIN = 11; // GPIO pin for the LED
+    static const int LED_PIN = 17; // GPIO pin for the LED
 
     int gpioResult = 0;
 
@@ -43,5 +43,8 @@ int main() {
         std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Wait for 500 milliseconds
     }
 
+    gpioTerminate(); // Clean up and terminate pigpio
+
+    return 0;
 
 }
