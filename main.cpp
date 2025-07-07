@@ -36,3 +36,5 @@ int main() {
     gpioTerminate();
     return 0;
 }
+// Compile with: g++ -o main main.cpp -lpigpio -lrt -lpthread
+// Run with: sudo ./main
