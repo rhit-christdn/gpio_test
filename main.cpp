@@ -4,59 +4,35 @@
 #include <thread>
 
 int main() {
-    static const int LED_PIN = 17; // GPIO pin for the LED
+    static const int LED_PIN = 17; // BCM GPIO 17
 
-    int gpioResult = 0;
+    std::cout << "pigpio version: " << gpioVersion() << std::endl;
 
-    std :: cout << "pigpio version: " << gpioVersion() << std::endl;
-
-    std::cout << "Initializing pigpio..." << std::endl;
-    gpioResult = gpioInitialise();
-
-    if (gpioResult < 0) {
-        std::cerr << "pigpio initialization failed with error code: " << gpioResult << std::endl;
-        return 1; // Exit if initialization fails
+    if (gpioInitialise() < 0) {
+        std::cerr << "pigpio initialization failed." << std::endl;
+        return 1;
     }
     std::cout << "pigpio initialized successfully." << std::endl;
 
-    gpioResult = gpioSetMode(LED_PIN, PI_OUTPUT);
-    if (gpioResult != 0) {
-        switch (gpioResult) {
-            case PI_BAD_USER_GPIO:
-                std::cerr << "Error: Bad GPIO number." << std::endl;
-                break;
-            case PI_BAD_GPIO:
-                std::cerr << "Error: GPIO not in range." << std::endl;
-                break;
-            case PI_BAD_MODE:
-                std::cerr << "Error: Invalid mode." << std::endl;
-                break;
-            default:
-                std::cerr << "Unknown error setting GPIO mode." << std::endl;
-        }
-    }
+    // Set frequency if desired (default is ~800Hz)
+    int frequency = gpioSetPWMfrequency(LED_PIN, 1000);
+    std::cout << "PWM frequency set to: " << frequency << " Hz" << std::endl;
 
-
-    int PWM_FREQUENCY = 1000; 
-    int PERIOD = 1 / PWM_FREQUENCY; // Calculate the period in seconds
-
+    int dutyCycle = 0;
 
     while (true) {
+        gpioPWM(LED_PIN, dutyCycle); // Set PWM duty cycle
 
-        for (int duty = 0; duty <= 100; duty += 5) {
-            int dutyCycle = duty / 100;
+        std::cout << "Duty Cycle: " << (dutyCycle * 100 / 255) << "%" << std::endl;
 
-            gpioWrite(LED_PIN, 1); // Set the LED state based on the duty cycle
-            std::this_thread::sleep_for(std::chrono::milliseconds(PERIOD * 1000) * dutyCycle); // Wait for the period duration
-            std::cout << "Duty Cycle: " << duty << "%" << std::endl;
-
-            gpioWrite(LED_PIN, 0); // Turn off the LED
-            std::this_thread::sleep_for(std::chrono::milliseconds(PERIOD * 1000) * (1 - dutyCycle)); // Wait for the remaining period duration
+        dutyCycle += (255 * 5) / 100; // Increase by 5%
+        if (dutyCycle > 255) {
+            dutyCycle = 0; // Reset to 0% after 100%
         }
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
-    gpioTerminate(); // Clean up and terminate pigpio
-
+    gpioTerminate();
     return 0;
-
 }
