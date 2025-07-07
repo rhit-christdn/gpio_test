@@ -21,7 +21,7 @@ int main() {
     int dutyCycle = 0;
 
     while (true) {
-        gpioPWM(LED_PIN, dutyCycle); // Set PWM duty cycle
+        gpioPWM(LED_PIN, 255); // Set PWM duty cycle
 
         std::cout << "Duty Cycle: " << (dutyCycle * 100 / 255) << "%" << std::endl;
 
