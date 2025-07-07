@@ -48,6 +48,7 @@ int main() {
 
             gpioWrite(LED_PIN, 1); // Set the LED state based on the duty cycle
             std::this_thread::sleep_for(std::chrono::milliseconds(PERIOD * 1000) * dutyCycle); // Wait for the period duration
+            std::cout << "Duty Cycle: " << duty << "%" << std::endl;
 
             gpioWrite(LED_PIN, 0); // Turn off the LED
             std::this_thread::sleep_for(std::chrono::milliseconds(PERIOD * 1000) * (1 - dutyCycle)); // Wait for the remaining period duration
