@@ -1,11 +1,10 @@
 #include <pigpio.h>
 #include <iostream>
-#include <fmaintrin.h>/core.h>
 #include <chrono>
 #include <thread>
 
 int main() {
-    static const int LED_PIN = 18; // GPIO pin for the LED
+    static const int LED_PIN = 11; // GPIO pin for the LED
 
     int gpioResult = 0;
 
