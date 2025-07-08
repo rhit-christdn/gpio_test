@@ -19,7 +19,7 @@ int main() {
     std::cout << "PWM frequency set to: " << frequency << " Hz" << std::endl;
 
     int dutyCycle = 0;
-    int percent = 0;
+    double percent = 50.0;
 
     while (true) {
         gpioPWM(LED_PIN, dutyCycle); // Set PWM duty cycle
