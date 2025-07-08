@@ -19,18 +19,23 @@ int main() {
     std::cout << "PWM frequency set to: " << frequency << " Hz" << std::endl;
 
     int dutyCycle = 0;
+    int percent = 0;
 
     while (true) {
         gpioPWM(LED_PIN, dutyCycle); // Set PWM duty cycle
 
-        std::cout << "Duty Cycle: " << (dutyCycle * 100 / 255) << "%" << std::endl;
-
-        dutyCycle += (255 * 5) / 100; // Increase by 5%
-        if (dutyCycle > 255) {
-            dutyCycle = 0; // Reset to 0% after 100%
+        std::cout << "Enter a percentage to set the duty cycle (0-100): ";
+        std::cin >> percent;
+        if (percent < 0 || percent > 100) {
+            std::cerr << "Invalid percentage. Please enter a value between 0 and 100." << std::endl;
+            continue;
         }
 
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        dutyCycle = (percent * 255) / 100; // Convert percentage to duty cycle (0-255)
+        gpioPWM(LED_PIN, dutyCycle); // Update PWM with new duty cycle
+
+
+        std::this_thread::sleep_for(std::chrono::seconds(2));
     }
 
     gpioTerminate();
