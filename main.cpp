@@ -4,7 +4,7 @@
 #include <thread>
 
 int main() {
-    static const int LED_PIN = 17; // BCM GPIO 17
+    static const int PIN = 17; // BCM GPIO 17
 
     std::cout << "pigpio version: " << gpioVersion() << std::endl;
 
@@ -14,16 +14,15 @@ int main() {
     }
     std::cout << "pigpio initialized successfully." << std::endl;
 
-    // Set frequency if desired (default is ~800Hz)
-    int frequency = gpioSetPWMfrequency(LED_PIN, 1000);
+    // Set frequency if desired (default is ~800Hz) 
+    double dutyCycle = (50 / 100.0) * 1000000; // Convert percentage to 0-1000000 range
+    gpioHardwarePWM(PIN, 1000, dutyCycle);
     std::cout << "PWM frequency set to: " << frequency << " Hz" << std::endl;
 
     int dutyCycle = 0;
     double percent = 50.0;
 
     while (true) {
-        gpioPWM(LED_PIN, dutyCycle); // Set PWM duty cycle
-
         std::cout << "Enter a percentage to set the duty cycle (0-100): ";
         std::cin >> percent;
         if (percent < 0 || percent > 100) {
@@ -32,7 +31,7 @@ int main() {
         }
 
         dutyCycle = (percent * 255) / 100; // Convert percentage to duty cycle (0-255)
-        gpioPWM(LED_PIN, dutyCycle); // Update PWM with new duty cycle
+        gpioHardwarePWM(PIN, dutyCycle); // Update PWM with new duty cycle
 
 
         std::this_thread::sleep_for(std::chrono::seconds(2));
