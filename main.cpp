@@ -4,7 +4,7 @@
 #include <thread>
 
 int main() {
-    static const int PIN = 17; // BCM GPIO 17
+    static const int PIN = 13; // BCM GPIO 17
 
     std::cout << "pigpio version: " << gpioVersion() << std::endl;
 
