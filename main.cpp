@@ -28,7 +28,7 @@ int main() {
             continue;
         }
 
-        dutyCycle = (percent * 255) / 100; // Convert percentage to duty cycle (0-255)
+        dutyCycle = (percent / 100.0) * 1000000;
         gpioHardwarePWM(PIN, 1000, dutyCycle); // Update PWM with new duty cycle/
 
 
