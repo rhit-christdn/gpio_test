@@ -17,9 +17,7 @@ int main() {
     // Set frequency if desired (default is ~800Hz) 
     double dutyCycle = (50 / 100.0) * 1000000; // Convert percentage to 0-1000000 range
     gpioHardwarePWM(PIN, 1000, dutyCycle);
-    std::cout << "PWM frequency set to: " << frequency << " Hz" << std::endl;
 
-    int dutyCycle = 0;
     double percent = 50.0;
 
     while (true) {
@@ -31,7 +29,7 @@ int main() {
         }
 
         dutyCycle = (percent * 255) / 100; // Convert percentage to duty cycle (0-255)
-        gpioHardwarePWM(PIN, dutyCycle); // Update PWM with new duty cycle
+        gpioHardwarePWM(PIN, 1000, dutyCycle); // Update PWM with new duty cycle/
 
 
         std::this_thread::sleep_for(std::chrono::seconds(2));
