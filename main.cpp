@@ -1,17 +1,22 @@
 #include <lgpio.h>
 #include <iostream>
-#include <chrono>
-#include <thread>
 
 int main() {
-    static const int PIN = 18; // BCM GPIO 18 (hardware PWM capable)
+    static const int PIN = 18; // BCM GPIO 18
 
-    int h = lgGpiochipOpen(0); // Open GPIO chip 0
+    int h = lgGpiochipOpen(0);
     if (h < 0) {
         std::cerr << "Failed to open GPIO chip 0, error: " << h << std::endl;
         return 1;
     }
     std::cout << "Opened GPIO chip 0 successfully.\n";
+
+    int status = lgGpioClaimOutput(h, 0, PIN, 0);
+    if (status < 0) {
+        std::cerr << "Failed to claim GPIO " << PIN << " for output, error: " << status << std::endl;
+        return 1;
+    }
+    std::cout << "Claimed GPIO " << PIN << " for output.\n";
 
     while (true) {
         std::cout << "Enter a percent for duty cycle (0-100): ";
@@ -19,18 +24,19 @@ int main() {
         std::cin >> dutyCycle;
 
         if (dutyCycle < 0 || dutyCycle > 100) {
-            std::cerr << "Invalid duty cycle. Please enter a value between 0 and 100.\n";
+            std::cerr << "Invalid duty cycle. Please enter 0-100.\n";
             continue;
         }
 
-        int status = lgTxPwm(h, PIN, 1000, dutyCycle);
-        if (status < 0) {
-            std::cerr << "Failed to set PWM, error: " << status << std::endl;
+        int slots_left = lgTxPwm(h, PIN, 1000, dutyCycle, 0, 0);
+        if (slots_left < 0) {
+            std::cerr << "Failed to start PWM, error: " << slots_left << std::endl;
         } else {
-            std::cout << "PWM set to " << dutyCycle << "% duty at 1kHz on GPIO " << PIN << ".\n";
+            std::cout << "PWM set: " << dutyCycle << "% duty at 1kHz on GPIO " << PIN << ". Queue slots left: " << slots_left << "\n";
         }
     }
 
+    lgGpioFree(h, PIN);
     lgGpiochipClose(h);
     return 0;
 }
