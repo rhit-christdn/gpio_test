@@ -7,15 +7,11 @@ int main() {
     static const int PIN = 18; // BCM GPIO 17
 
     int h = lgGpiochipOpen(0); // Open GPIO chip 0
-    if (h < 0) {
-        std::cerr << "Failed to open GPIO chip 0: " << lgError(h) << std::endl;
-        return 1;
-    }
 
     while (true){
         std::cout << "Enter a percent for duty cycle (0-100): ";
-        double dutycycle;
-        std::cin >> dutycycle;
+        double dutyCycle;
+        std::cin >> dutyCycle;
 
         lgTxPwm(h, PIN, 1000, dutyCycle, 0, 0);
 
@@ -53,5 +49,5 @@ int main() {
     // gpioTerminate();
     return 0;
 }
-// Compile with: g++ -o main main.cpp -lpigpio -lrt -lpthread
+// Compile with: g++ -o main main.cpp -llgpio -lrt -lpthread
 // Run with: sudo ./main
