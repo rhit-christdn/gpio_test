@@ -71,7 +71,6 @@ int main() {
         if (button == 1) {
             lgGpioClaimOutput(h, 8, pin3, 0); // Simulate pressing button A
             std::cout << "Button A pressed." << std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
             lgGpioWrite(h, pin3, 1); // Release button A
             std::cout << "Button A released." << std::endl;
         } else {
