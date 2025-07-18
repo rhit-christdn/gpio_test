@@ -1,6 +1,8 @@
 #include <lgpio.h>
 #include <iostream>
 #include <thread>
+#include <chrono>
+
 
 int main() {
     static const int PIN1 = 18; // BCM GPIO 18
@@ -72,7 +74,7 @@ int main() {
         if (button == 1) {
             lgGpioClaimOutput(h, 8, pin3, 0); // Simulate pressing button A
             std::cout << "Button A pressed." << std::endl;
-            std::this_thread::sleep_for(1); // Simulate button press duration
+            std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Simulate button press duratio
             lgGpioWrite(h, pin3, 1); // Release button A
             std::cout << "Button A released." << std::endl;
         } else {
