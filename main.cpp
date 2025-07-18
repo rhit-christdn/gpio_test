@@ -4,6 +4,7 @@
 int main() {
     static const int PIN1 = 18; // BCM GPIO 18
     static const int pin2 = 13; // BCM GPIO 13
+    static const int pin3 = 17; // BCM GPIO 17
 
     int h = lgGpiochipOpen(0);
     if (h < 0) {
@@ -25,6 +26,13 @@ int main() {
         return 1;
     } 
     std::cout << "Claimed GPIO " << pin2 << " for output.\n";
+
+    int statu3 = lgGpioClaimOutput(h, 8, pin3, 1);
+    if (statu3 < 0) {
+        std::cerr << "Failed to claim GPIO " << pin3 << " for output, error: " << statu3 << std::endl;
+        return 1;
+    }
+    std::cout << "Claimed GPIO " << pin3 << " for output.\n";
 
     while (true) {
         std::cout << "Enter a percent for duty cycle1 (0-100): ";
@@ -56,6 +64,20 @@ int main() {
         } else {
             std::cout << "PWM set: " << dutyCycle2 << "% duty at 1kHz on GPIO " << pin2 << ". Queue slots left: " << slots_left << "\n";
         }
+
+        std::cout << "enter '1' to press button A" << std::endl;
+        int button;
+        std::cin >> button;
+        if (button == 1) {
+            lgGpioClaimOutput(h, 8, pin3, 0); // Simulate pressing button A
+            std::cout << "Button A pressed." << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            lgGpioWrite(h, pin3, 1); // Release button A
+            std::cout << "Button A released." << std::endl;
+        } else {
+            std::cout << "Invalid input. Please enter '1' to press button A.\n";
+        }
+
     }
 
     lgGpioFree(h, PIN1);
@@ -65,4 +87,6 @@ int main() {
 }
 
 //git clone lg.git & make install required
+// g++ -o main main.c -llgpio -lrt -lpthread
+// sudo ./main
 
