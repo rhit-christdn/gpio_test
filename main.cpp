@@ -30,12 +30,14 @@ int main() {
     } 
     std::cout << "Claimed GPIO " << pin2 << " for output.\n";
 
-    int statu3 = lgGpioClaimOutput(h, 8, pin3, 1);
-    if (statu3 < 0) {
-        std::cerr << "Failed to claim GPIO " << pin3 << " for output, error: " << statu3 << std::endl;
-        return 1;
-    }
-    std::cout << "Claimed GPIO " << pin3 << " for output.\n";
+    // int statu3 = lgGpioClaimOutput(h, 8, pin3, 1);
+    // if (statu3 < 0) {
+    //     std::cerr << "Failed to claim GPIO " << pin3 << " for output, error: " << statu3 << std::endl;
+    //     return 1;
+    // }
+    // std::cout << "Claimed GPIO " << pin3 << " for output.\n";
+
+    lgGpioWrite(h, pin3, 1); // Release button A
 
     while (true) {
         std::cout << "Enter a percent for duty cycle1 (0-100): ";
@@ -72,7 +74,7 @@ int main() {
         int button;
         std::cin >> button;
         if (button == 1) {
-            lgGpioClaimOutput(h, 8, pin3, 0); // Simulate pressing button A
+            lgGpioWrite(h, pin3, 0); // Press button A
             std::cout << "Button A pressed." << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Simulate button press duratio
             lgGpioWrite(h, pin3, 1); // Release button A
