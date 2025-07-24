@@ -8,6 +8,7 @@ int main() {
     static const int PIN1 = 18; // BCM GPIO 18
     static const int pin2 = 13; // BCM GPIO 13
     static const int pin3 = 17; // BCM GPIO 17
+    static const int pin4 = 7;
 
     int h = lgGpiochipOpen(0);
     if (h < 0) {
@@ -24,12 +25,12 @@ int main() {
     // std::cout << "Claimed GPIO " << PIN1 << " for output.\n";
 
     // int status2 = lgGpioClaimOutput(h, 0, pin2, 0);
-    int status2 = lgGpioClaimInput(h, 0, pin2);
-    if (status2 < 0) {
-        std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
-        return 1;
-    } 
-    std::cout << "Claimed GPIO " << pin2 << " for input.\n";
+    // int status2 = lgGpioClaimInput(h, 0, pin2);
+    // if (status2 < 0) {
+    //     std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
+    //     return 1;
+    // } 
+    // std::cout << "Claimed GPIO " << pin2 << " for input.\n";
 
     // int statu3 = lgGpioClaimOutput(h, 8, pin3, 1);
     // if (statu3 < 0) {
@@ -37,6 +38,8 @@ int main() {
     //     return 1;
     // }
     // std::cout << "Claimed GPIO " << pin3 << " for output.\n";
+
+    int status4 = lgGPIOClaimInput(h, 0, pin4);
 
     // lgGpioWrite(h, pin3, 1); // Release button A
 
@@ -84,43 +87,53 @@ int main() {
         //     std::cout << "Invalid input. Please enter '1' to press button A.\n";
         // }
 
-        std::cout << "enter 'a' to turn left" << std::endl;
-        std::cout << "enter 'd' to turn right" << std::endl;
-        char key;
-        std::cin >> key;
-        if (key == 'a') {
-            int status = lgGpioClaimOutput(h, 0, pin2, 0);
-            if (status < 0) {
-                std::cerr << "Failed to claim GPIO " << pin2 << " for output, error: " << status << std::endl;
-                return 1;
-            }
+        // std::cout << "enter 'a' to turn left" << std::endl;
+        // std::cout << "enter 'd' to turn right" << std::endl;
+        // char key;
+        // std::cin >> key;
+        // if (key == 'a') {
+        //     int status = lgGpioClaimOutput(h, 0, pin2, 0);
+        //     if (status < 0) {
+        //         std::cerr << "Failed to claim GPIO " << pin2 << " for output, error: " << status << std::endl;
+        //         return 1;
+        //     }
 
-            lgGpioWrite(h, pin2, 1);
-            std::this_thread::sleep_for(std::chrono::seconds(5)); // Simulate button press duration
+        //     lgGpioWrite(h, pin2, 1);
+        //     std::this_thread::sleep_for(std::chrono::seconds(5)); // Simulate button press duration
 
-            int status2 = lgGpioClaimInput(h, 0, pin2);
-            if (status2 < 0) {
-                std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
-                return 1;
-            } 
-            std::cout << "Claimed GPIO " << pin2 << " for input.\n";
-        } else if (key == 'd') {
-            int status = lgGpioClaimOutput(h, 0, pin2, 0);
-            if (status < 0) {
-                std::cerr << "Failed to claim GPIO " << pin2 << " for output, error: " << status << std::endl;
-                return 1;
-            }
+        //     int status2 = lgGpioClaimInput(h, 0, pin2);
+        //     if (status2 < 0) {
+        //         std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
+        //         return 1;
+        //     } 
+        //     std::cout << "Claimed GPIO " << pin2 << " for input.\n";
+        // } else if (key == 'd') {
+        //     int status = lgGpioClaimOutput(h, 0, pin2, 0);
+        //     if (status < 0) {
+        //         std::cerr << "Failed to claim GPIO " << pin2 << " for output, error: " << status << std::endl;
+        //         return 1;
+        //     }
 
-            lgGpioWrite(h, pin2, 0);
-            std::this_thread::sleep_for(std::chrono::seconds(5)); // Simulate button press duration
+        //     lgGpioWrite(h, pin2, 0);
+        //     std::this_thread::sleep_for(std::chrono::seconds(5)); // Simulate button press duration
 
-            int status2 = lgGpioClaimInput(h, 0, pin2);
-            if (status2 < 0) {
-                std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
-                return 1;
-            } 
-            std::cout << "Claimed GPIO " << pin2 << " for input.\n";
+        //     int status2 = lgGpioClaimInput(h, 0, pin2);
+        //     if (status2 < 0) {
+        //         std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
+        //         return 1;
+        //     } 
+        //     std::cout << "Claimed GPIO " << pin2 << " for input.\n";
+        // }
+
+        if (lgGpioRead(h, pin4){
+            system("arecord recording.wav")
+            std::this_thread::sleep_for(std::chrono(milliseconds(100)));
+            while (lgGpioRead(h, pin4)){}
+
+            system("kill $(ps -eo pid,comm | grep arecord | awk '{print $1}' | head -n 1)");
         }
+
+        system("aplay recording.wav");
 
     }
 
