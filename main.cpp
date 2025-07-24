@@ -24,7 +24,7 @@ int main() {
     // std::cout << "Claimed GPIO " << PIN1 << " for output.\n";
 
     // int status2 = lgGpioClaimOutput(h, 0, pin2, 0);
-    int status2 = lgGpioClaimInput(h, 0, pin2);
+    int status2 = lgGpioClaimInput(h, 8, pin2);
     if (status2 < 0) {
         std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
         return 1;
