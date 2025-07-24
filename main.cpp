@@ -95,10 +95,10 @@ int main() {
                 return 1;
             }
 
-            lgGpioWrite(h, pin2, 0);
+            lgGpioWrite(h, pin2, 1);
             std::this_thread::sleep_for(std::chrono::seconds(5)); // Simulate button press duration
 
-            int status2 = lgGpioClaimInput(h, 0, pin2);
+            int status2 = lgGpioClaimInput(h, LG_SET_OPEN_DRAIN, pin2);
             if (status2 < 0) {
                 std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
                 return 1;
@@ -111,10 +111,10 @@ int main() {
                 return 1;
             }
 
-            lgGpioWrite(h, pin2, 1);
+            lgGpioWrite(h, pin2, 0);
             std::this_thread::sleep_for(std::chrono::seconds(5)); // Simulate button press duration
 
-            int status2 = lgGpioClaimInput(h, 0, pin2);
+            int status2 = lgGpioClaimInput(h, LG_SET_OPEN_DRAIN, pin2);
             if (status2 < 0) {
                 std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
                 return 1;
