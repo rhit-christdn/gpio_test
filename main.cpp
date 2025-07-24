@@ -131,16 +131,11 @@ int main() {
         // }
 
         if (!lgGpioRead(h, pin4)){
-            // system("arecord recording.wav");
+            system("arecord recording.wav");
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             while (!lgGpioRead(h, pin4)){}
-            std::cout << "\npressed";
-            // system("kill $(ps -eo pid,comm | grep arecord | awk '{print $1}' | head -n 1)");
+            system("kill $(ps -eo pid,comm | grep arecord | awk '{print $1}' | head -n 1)");
         }
-        std::cout << lgGpioRead(h, pin4);
-        std::cout << "\nnot pressed";
-
-        // system("aplay recording.wav");
 
     }
 
