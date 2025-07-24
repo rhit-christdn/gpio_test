@@ -91,7 +91,7 @@ int main() {
         if (key == 'a') {
             int status = lgGpioClaimOutput(h, 0, pin2, 0);
             if (status < 0) {
-                std::cerr << "Failed to claim GPIO " << pin2 << " for output, error: " << statu3 << std::endl;
+                std::cerr << "Failed to claim GPIO " << pin2 << " for output, error: " << status << std::endl;
                 return 1;
             }
 
@@ -107,7 +107,7 @@ int main() {
         } else if (key == 'd') {
             int status = lgGpioClaimOutput(h, 0, pin2, 0);
             if (status < 0) {
-                std::cerr << "Failed to claim GPIO " << pin2 << " for output, error: " << statu3 << std::endl;
+                std::cerr << "Failed to claim GPIO " << pin2 << " for output, error: " << status << std::endl;
                 return 1;
             }
 
