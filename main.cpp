@@ -137,6 +137,7 @@ int main() {
             std::cout << "\npressed";
             // system("kill $(ps -eo pid,comm | grep arecord | awk '{print $1}' | head -n 1)");
         }
+        std::cout << "\nnot pressed";
 
         // system("aplay recording.wav");
 
