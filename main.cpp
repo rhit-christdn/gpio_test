@@ -39,7 +39,7 @@ int main() {
     // }
     // std::cout << "Claimed GPIO " << pin3 << " for output.\n";
 
-    int status4 = lgGPIOClaimInput(h, 0, pin4);
+    int status4 = lgGpioClaimInput(h, 0, pin4);
 
     // lgGpioWrite(h, pin3, 1); // Release button A
 
@@ -125,7 +125,7 @@ int main() {
         //     std::cout << "Claimed GPIO " << pin2 << " for input.\n";
         // }
 
-        if (lgGpioRead(h, pin4){
+        if (lgGpioRead(h, pin4)){
             system("arecord recording.wav")
             std::this_thread::sleep_for(std::chrono(milliseconds(100)));
             while (lgGpioRead(h, pin4)){}
