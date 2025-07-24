@@ -40,6 +40,11 @@ int main() {
     // std::cout << "Claimed GPIO " << pin3 << " for output.\n";
 
     int status4 = lgGpioClaimInput(h, 0, pin4);
+    if (status4 < 0) {
+        std::cerr << "Failed to claim GPIO " << pin4 << " for output, error: " << status4 << std::endl;
+        return 1;
+    }
+    std::cout << "Claimed GPIO " << pin4 << " for output.\n";
 
     // lgGpioWrite(h, pin3, 1); // Release button A
 
