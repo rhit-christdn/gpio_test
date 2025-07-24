@@ -24,23 +24,12 @@ int main() {
     // std::cout << "Claimed GPIO " << PIN1 << " for output.\n";
 
     // int status2 = lgGpioClaimOutput(h, 0, pin2, 0);
-    // int status2 = lgGpioClaimInput(h, 8, pin2);
-    // if (status2 < 0) {
-    //     std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
-    //     return 1;
-    // } 
-    // std::cout << "Claimed GPIO " << pin2 << " for input.\n";
-
-    for (int x = 0; x < 100; x++){
-        std::cout << x;
-
-        int status = lgGpioClaimInput(h, x, pin2);
-        if (status < 0) {
-            std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status << std::endl;
-            return 1;
-        } 
-        std::cout << "Claimed GPIO " << pin2 << " for input.\n";
-    }
+    int status2 = lgGpioClaimInput(h, 0, pin2);
+    if (status2 < 0) {
+        std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
+        return 1;
+    } 
+    std::cout << "Claimed GPIO " << pin2 << " for input.\n";
 
     // int statu3 = lgGpioClaimOutput(h, 8, pin3, 1);
     // if (statu3 < 0) {
@@ -109,7 +98,7 @@ int main() {
             lgGpioWrite(h, pin2, 1);
             std::this_thread::sleep_for(std::chrono::seconds(5)); // Simulate button press duration
 
-            int status2 = lgGpioClaimInput(h, LG_SET_OPEN_DRAIN, pin2);
+            int status2 = lgGpioClaimInput(h, 0, pin2);
             if (status2 < 0) {
                 std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
                 return 1;
@@ -125,7 +114,7 @@ int main() {
             lgGpioWrite(h, pin2, 0);
             std::this_thread::sleep_for(std::chrono::seconds(5)); // Simulate button press duration
 
-            int status2 = lgGpioClaimInput(h, LG_SET_OPEN_DRAIN, pin2);
+            int status2 = lgGpioClaimInput(h, 0, pin2);
             if (status2 < 0) {
                 std::cerr << "Failed to claim GPIO " << pin2 << " for input, error: " << status2 << std::endl;
                 return 1;
